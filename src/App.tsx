@@ -19,7 +19,7 @@ function App() {
 
   useEffect(filterBooks, [dates])
 
-  let centuryButtons = []
+  const centuryButtons = []
   for (let i = 1700; i < 2100; i += 100) {
     centuryButtons.push(
       <button key={i} className='button' onClick={() => setDates({start: i, end: i + 99})}>
@@ -27,15 +27,23 @@ function App() {
       </button>)
   }
 
-  let decadeButtons = []
-  if (dates.start > 1699) {
-    let century = Math.floor(dates.start/100) * 100
-    for (let i = century; i < century + 99 && i < 2030; i += 10) {
-        decadeButtons.push(
-          <button key={i} className='button' onClick={() => setDates({start: i, end: i + 9})}>
-            {i}s
-          </button>)
-    }
+  const decadeButtons = []
+  const yearButtons = []
+
+  let firstYearOfCentury = Math.floor(dates.start/100) * 100
+  for (let i = firstYearOfCentury; i < firstYearOfCentury + 99 && i < 2030; i += 10) {
+    decadeButtons.push(
+      <button key={i} className='button' onClick={() => setDates({start: i, end: i + 9})}>
+        {i}s
+      </button>)
+  }
+
+  let firstYearOfDecade = Math.floor(dates.start/10) * 10
+  for (let i = firstYearOfDecade; i < firstYearOfDecade + 10 && i < 2023; i++) {
+    yearButtons.push(
+      <button key={i} className='button' onClick={() => setDates({start: i, end: i})}>
+        {i}
+      </button>)
   }
   
   const booksDisplay = books.map((book, idx) => {
@@ -52,15 +60,26 @@ function App() {
 
   return (
     <>
+    <main className='section'>
     <div className='buttons has-addons'>
     <button className='button' onClick={() => setDates(defaultDates)}>All</button>
     <button className='button' onClick={() => setDates({start: -700, end: 1699})}>Earlier</button>
     {centuryButtons}
     </div>
 
-    <div className='buttons has-addons'>
-    {decadeButtons}
-    </div>
+    { dates.start > 1699 ?
+      <div className='buttons has-addons'>
+      {decadeButtons}
+      </div>
+      : null  
+    }
+    
+    { dates.end - dates.start <= 10 ?
+      <div className='buttons has-addons'>
+      {yearButtons}
+      </div>
+      : null
+    }
 
     <table className='table'>
       <thead>
@@ -73,6 +92,7 @@ function App() {
       </thead>
       {booksDisplay}
     </table>
+    </main>
     </>
   )
 }
