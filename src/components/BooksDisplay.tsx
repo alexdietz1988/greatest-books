@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
-import data from '../data'
+import fiction from '../fiction'
+import nonfiction from '../nonfiction'
 
 function BooksDisplay(props: any) {
-    const [books, setBooks] = useState(data)
+    const [books, setBooks] = useState(fiction)
 
     function filterBooks(): void {
+        let allBooks = props.genre === 'fiction' ? fiction : nonfiction
         let filtered = []
-        for (let i = 0; i < data.length && filtered.length < 100; i++) {
-          let book = data[i]
+        for (let i = 0; i < allBooks.length && filtered.length <= 100; i++) {
+          let book = allBooks[i]
           if (
             (book.year > props.dates.start - 1 && book.year < props.dates.end + 1) &&
             (props.author === '' || book.author === props.author)) {

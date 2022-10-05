@@ -4,6 +4,7 @@ import Form from './components/Form'
 import BooksDisplay from './components/BooksDisplay'
 
 function App() {
+  const [genre, setGenre] = useState('fiction')
   const defaultDates = {start: -700, end: new Date().getFullYear()}
   const [dates, setDates] = useState(defaultDates)
   const [author, setAuthor] = useState('')
@@ -11,8 +12,8 @@ function App() {
   return (
     <>
     <main className='section'>
-      <Form dates={dates} setDates={setDates} defaultDates={defaultDates} author={author} setAuthor={setAuthor} />
-      <BooksDisplay dates={dates} setDates={setDates} defaultDates={defaultDates} author={author} setAuthor={setAuthor} />
+      <Form genre={genre} setGenre={setGenre} dates={dates} setDates={setDates} defaultDates={defaultDates} author={author} setAuthor={setAuthor} />
+      <BooksDisplay genre={genre} dates={dates} setDates={setDates} defaultDates={defaultDates} author={author} setAuthor={setAuthor} />
     </main>
     </>
   )
