@@ -40,7 +40,12 @@ function App() {
   
   const booksDisplay = books.map((book, idx) => {
     return (
-      <div key={idx}><b>{book.rank}</b> {book.author}, <em>{book.title}</em> ({book.year})</div>
+      <tr key={idx}>
+        <td>{book.rank}</td>
+        <td>{book.author}</td>
+        <td><em>{book.title}</em></td>
+        <td>{book.year}</td>
+      </tr>
     )
     }
   )
@@ -57,7 +62,17 @@ function App() {
     {decadeButtons}
     </div>
 
-    <div>{booksDisplay}</div>
+    <table className='table'>
+      <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Date</th>
+        </tr>
+      </thead>
+      {booksDisplay}
+    </table>
     </>
   )
 }
