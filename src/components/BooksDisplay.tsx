@@ -49,13 +49,13 @@ function BooksDisplay(props: any) {
     )
 
     return (
-        <table className='table'>
+        <table className='table' style={{maxWidth: "600px"}}>
             <thead>
                 <tr>
-                    <th>Rank</th>
-                    <th>Author</th>
-                    <th>Title</th>
-                    <th>Date</th>
+                    <th className='is-narrow'>Rank</th>
+                    <th className=''>Author</th>
+                    <th className=''>Title</th>
+                    <th className='is-narrow'>Date</th>
                 </tr>
             </thead>
             {booksDisplay}
