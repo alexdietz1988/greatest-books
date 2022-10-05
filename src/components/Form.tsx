@@ -63,8 +63,8 @@ function Form(props: any) {
         <>
 
         <div className='buttons has-addons'>
-        <button className={props.genre === 'fiction'? 'button is-link' : 'button'} onClick={() => props.setGenre('fiction')}>Fiction</button>
-        <button className={props.genre === 'nonfiction'? 'button is-link' : 'button'} onClick={() => props.setGenre('nonfiction')}>Nonfiction</button>
+        <button className={props.genre === 'fiction'? 'button is-success' : 'button'} onClick={() => props.setGenre('fiction')}>Fiction</button>
+        <button className={props.genre === 'nonfiction'? 'button is-success' : 'button'} onClick={() => props.setGenre('nonfiction')}>Nonfiction</button>
         </div>
 
         <div className='buttons has-addons'>

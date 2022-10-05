@@ -8,7 +8,7 @@ function BooksDisplay(props: any) {
     function filterBooks(): void {
         let allBooks = props.genre === 'fiction' ? fiction : nonfiction
         let filtered = []
-        for (let i = 0; i < allBooks.length && filtered.length <= 100; i++) {
+        for (let i = 0; i < allBooks.length && filtered.length < 100; i++) {
           let book = allBooks[i]
           if (
             (book.year > props.dates.start - 1 && book.year < props.dates.end + 1) &&
@@ -48,13 +48,17 @@ function BooksDisplay(props: any) {
         }
     )
 
+    if (books.length === 0) {
+        return <div>No results</div>
+    }
+
     return (
         <table className='table' style={{maxWidth: "600px"}}>
             <thead>
                 <tr>
                     <th className='is-narrow'>Rank</th>
-                    <th className=''>Author</th>
-                    <th className=''>Title</th>
+                    <th>Author</th>
+                    <th>Title</th>
                     <th className='is-narrow'>Date</th>
                 </tr>
             </thead>
