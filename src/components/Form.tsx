@@ -29,11 +29,6 @@ function Form(props: any) {
     return (
         <>
         <div className='buttons has-addons'>
-        <button className='button' onClick={() => props.setAuthor('')}>All Authors</button>
-        <button className='button' onClick={() => props.setDates(props.defaultDates)}>All Dates</button>
-        </div>
-
-        <div className='buttons has-addons'>
         <button className='button' onClick={() => props.setDates({start: -700, end: 1699})}>Earlier</button>
         {centuryButtons}
         </div>
@@ -51,6 +46,18 @@ function Form(props: any) {
         </div>
         : null
         }
+
+        <div className='buttons has-addons'>
+          {props.author === '' ?
+            <button className='button'>All Authors</button> :
+            <button className='button is-info' onClick={() => props.setAuthor('')}>
+              {props.author}
+              <button className='delete is-small ml-1'></button>
+            </button>
+          }
+          
+          <button className='button' onClick={() => props.setDates(props.defaultDates)}>All Dates</button>
+        </div>
         </>
     )
 }

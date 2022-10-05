@@ -4,7 +4,7 @@ import data from '../data'
 function BooksDisplay(props: any) {
     const [books, setBooks] = useState(data)
 
-    function filterBooks() {
+    function filterBooks(): void {
         let filtered = []
         for (let i = 0; i < data.length && filtered.length < 100; i++) {
           let book = data[i]
@@ -19,13 +19,28 @@ function BooksDisplay(props: any) {
     
     useEffect(filterBooks, [props])
 
+    function seeAllByAuthor(author: string): void {
+        props.setAuthor(author)
+        props.setDates(props.defaultDates)
+    }
+
+    function seeAllByYear(year: number): void {
+        props.setDates({ start: year, end: year })
+    }
+
     const booksDisplay = books.map((book, idx) => {
         return (
           <tr key={idx}>
             <td>{book.rank}</td>
-            <td onClick={() => props.setAuthor(book.author)}>{book.author}</td>
+            <td onClick={() => seeAllByAuthor(book.author)}><a>{book.author}</a></td>
             <td><em>{book.title}</em></td>
-            <td>{book.year}</td>
+            <td onClick={() => {
+                if (typeof book.year === "number") {
+                    seeAllByYear(book.year)
+                }
+                }}>
+                <a>{book.year}</a>
+            </td>
           </tr>
         )
         }

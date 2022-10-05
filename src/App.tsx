@@ -11,8 +11,8 @@ function App() {
   return (
     <>
     <main className='section'>
-      <Form dates={dates} setDates={setDates} defaultDates={defaultDates} setAuthor={setAuthor} />
-      <BooksDisplay dates={dates} author={author} setAuthor={setAuthor} />
+      <Form dates={dates} setDates={setDates} defaultDates={defaultDates} author={author} setAuthor={setAuthor} />
+      <BooksDisplay dates={dates} setDates={setDates} defaultDates={defaultDates} author={author} setAuthor={setAuthor} />
     </main>
     </>
   )
