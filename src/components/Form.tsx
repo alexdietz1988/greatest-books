@@ -29,7 +29,11 @@ function Form(props: any) {
     return (
         <>
         <div className='buttons has-addons'>
-        <button className='button' onClick={() => props.setDates(props.defaultDates)}>All</button>
+        <button className='button' onClick={() => props.setAuthor('')}>All Authors</button>
+        <button className='button' onClick={() => props.setDates(props.defaultDates)}>All Dates</button>
+        </div>
+
+        <div className='buttons has-addons'>
         <button className='button' onClick={() => props.setDates({start: -700, end: 1699})}>Earlier</button>
         {centuryButtons}
         </div>
