@@ -1,17 +1,21 @@
 function DateButtons(props: any) {
     const buttons = []
-    const contextSize = props.range * 10
-    let startDate = Math.floor(props.dates.start / contextSize) * contextSize
-    let endDate = startDate + contextSize - 1
-    let deselectDates = {start: startDate, end: endDate}
+
+    // If the selected decade is 1920, for example, then the decade buttons should range from 1900 to 1999
+    const contextSize = props.range * 10 
+    let contextStart = Math.floor(props.dates.start / contextSize) * contextSize
+    let contextEnd = Math.min(contextStart + contextSize - 1, new Date().getFullYear())
+
+    // If the user deselects the 1920s button, for example, then the date range should return to 1900-1999
+    let deselectDates = {start: contextStart, end: contextEnd} 
 
     if (props.range === 100) {
-        startDate = props.cutoff
-        endDate = new Date().getFullYear()
+        contextStart = props.cutoff
         deselectDates = props.defaultDates
+        contextEnd = new Date().getFullYear()
     }
 
-    for (let i = startDate; i < endDate; i += props.range) {
+    for (let i = contextStart; i < contextEnd; i += props.range) {
         const selected = props.dates.start >= i && props.dates.end <= i + props.range - 1
         const newDates = selected ? deselectDates : {start: i, end: i + props.range - 1}
         buttons.push(

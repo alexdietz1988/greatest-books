@@ -6,15 +6,25 @@ function BooksDisplay(props: any) {
     const [books, setBooks] = useState(fiction)
     useEffect(filterBooks, [props])
 
+    // Filter books array depending on selected genre, date, and author
     function filterBooks(): void {
-        let allBooks = props.genre === 'fiction' ? fiction : nonfiction
+        const allBooks = props.genre === 'fiction' ? fiction : nonfiction
         const filtered = []
         for (let i = 0; i < allBooks.length && filtered.length < 100; i++) {
             let book = allBooks[i]
-            const inDateRange: boolean = book.year >= props.dates.start - 1 && book.year <= props.dates.end
-            const datesAreDefault: boolean = (props.dates.start === props.defaultDates.start && props.dates.end === props.defaultDates.end)
-            if ((inDateRange || datesAreDefault) && (props.author === '' || book.author === props.author)) {
-            filtered.push(book)
+            const inDateRange: boolean = (
+                book.year >= props.dates.start &&
+                book.year <= props.dates.end
+            )
+            const datesAreDefault: boolean = (
+                props.dates.start === props.defaultDates.start &&
+                props.dates.end === props.defaultDates.end
+            )
+            if (
+                (inDateRange || datesAreDefault) &&
+                (props.author === '' || book.author === props.author)
+            ) {
+                filtered.push(book)
             }
         }
         setBooks(filtered)
@@ -32,6 +42,9 @@ function BooksDisplay(props: any) {
                 </tr>
             </thead>
 
+            {/* For each book, display rank, author, title, and date */}
+            {/* Clicking on author shows all books by that author */}
+            {/* Clicking on date displays all books in that date (unless book has dummy date of 10000) */}
             { books.map((book, idx): JSX.Element => (
                 <tr key={idx}>
                     <td>{book.rank}</td>
