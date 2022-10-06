@@ -14,10 +14,6 @@ type props = {
 }
 
 function Form(props: props): JSX.Element {
-  console.log(props.dates)
-
-  if (!props.dates) return <div>Loading</div>
-  
   const earlierButton: JSX.Element = (
     <button
       className={props.dates.end < cutoff ? 'button is-link' : 'button'}
@@ -42,6 +38,7 @@ function Form(props: props): JSX.Element {
       <div className='buttons has-addons'>
         {['fiction', 'nonfiction'].map((thisGenre: string): JSX.Element => (
           <button
+              key={thisGenre}
               className={props.genre === thisGenre ? 'button is-success' : 'button'}
               onClick={() => setGenre(thisGenre)}
             >

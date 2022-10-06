@@ -8,8 +8,8 @@ type props = {
     setDates: (dates: dates) => void,
 }
 
-function BooksDisplay(props: props) {
-    return (typeof props.books === 'undefined' || props.books.length === 0) ?
+function BooksDisplay({books, setAuthor, setDates}: props) {
+    return books.length === 0 ?
         <p>No results</p> :
         <table className='table' style={{maxWidth: "600px"}}>
             <thead>
@@ -21,10 +21,11 @@ function BooksDisplay(props: props) {
                 </tr>
             </thead>
 
+            <tbody>
             {/* For each book, display rank, author, title, and date */}
             {/* Clicking on author shows all books by that author */}
             {/* Clicking on date displays all books in that date (unless book has dummy date of 10000) */}
-            { props.books.map((book, idx): JSX.Element => (
+            { books.map((book: book, idx: number): JSX.Element => (
                 <tr key={idx}>
                     <td>{book.rank}</td>
                     <td onClick={() => {
@@ -45,14 +46,12 @@ function BooksDisplay(props: props) {
                     }
                 </tr>
             )) }
+            </tbody>
         </table>
 }
 
-function mapStateToProps(state: state): {author: string, genre: string, dates: dates, books: book[]} {
+function mapStateToProps(state: state): {books: book[]} {
     return {
-        author: state.data.author,
-        genre: state.data.genre,
-        dates: state.data.dates,
         books: state.data.books
     }
 }
