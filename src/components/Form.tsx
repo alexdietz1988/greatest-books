@@ -3,87 +3,90 @@ function Form(props: any) {
     const decadeButtons = []
     const yearButtons = []
     const cutoff = 1500
-
-    function earlierButton() {
-      let buttonClass = 'button'
-      let clickHandler = () => props.setDates({start: -700, end: cutoff - 1})
-      if (props.dates.end < cutoff) {
-        buttonClass += ' is-link'
-        clickHandler = () => props.setDates(props.defaultDates)
-      }
-      return (
-        <button className={buttonClass} onClick={clickHandler}>
-          Earlier
-        </button>
-      )
-    }
+    const currentYear = new Date().getFullYear()
+    const firstYearOfCentury = Math.floor(props.dates.start/100) * 100
+    const firstYearOfDecade = Math.floor(props.dates.start/10) * 10
 
     for (let i = cutoff; i < 2100; i += 100) {
-      let buttonClass = 'button'
-      let clickHandler = () => props.setDates({start: i, end: i + 99})
-      if (props.dates.start >= i && props.dates.end <= i + 99) {
-        buttonClass += ' is-link'
-        clickHandler = () => {props.setDates(props.defaultDates)}
-      }
+      const selected = props.dates.start >= i && props.dates.end <= i + 99
       centuryButtons.push(
-        <button key={i} className={buttonClass} onClick={clickHandler}>
+        <button
+          key={i}
+          className={selected ? 'button is-link' : 'button'}
+          onClick={() => selected ?
+            props.setDates(props.defaultDates) :
+            props.setDates({start: i, end: i + 99})}
+        >
           {i}s
         </button>)
     }
-  
-    let firstYearOfCentury = Math.floor(props.dates.start/100) * 100
-    for (let i = firstYearOfCentury; i < firstYearOfCentury + 99 && i <= new Date().getFullYear(); i += 10) {
-      let buttonClass = 'button'
-      let clickHandler = () => props.setDates({start: i, end: i + 9})
-      if (props.dates.start >= i && props.dates.end <= i + 9) {
-        buttonClass += ' is-link'
-        clickHandler = () => {props.setDates({start: firstYearOfCentury, end: firstYearOfCentury + 99})}
-      }
+    
+    for (let i = firstYearOfCentury; i < firstYearOfCentury + 99 && i <= currentYear; i += 10) {
+      const selected = props.dates.start >= i && props.dates.end <= i + 9
       decadeButtons.push(
-        <button key={i} className={buttonClass} onClick={clickHandler}>
+        <button key={i}
+          className={selected ? 'button is-link' : 'button'}
+          onClick={() => selected ?
+            props.setDates({start: firstYearOfCentury, end: firstYearOfCentury + 99}) :
+            props.setDates({start: i, end: i + 9})}>
           {i}s
         </button>)
     }
   
-    let firstYearOfDecade = Math.floor(props.dates.start/10) * 10
-    for (let i = firstYearOfDecade; i < firstYearOfDecade + 10 && i <= new Date().getFullYear(); i++) {
-      let buttonClass = 'button'
-      let clickHandler = () => { props.setDates({start: i, end: i}) }
-      if (props.dates.start === i && props.dates.end === i) {
-        buttonClass += ' is-link'
-        clickHandler = () => {props.setDates({start: firstYearOfDecade, end: firstYearOfDecade + 9})}
-      }
+    for (let i = firstYearOfDecade; i < firstYearOfDecade + 10 && i <= currentYear; i++) {
+      const selected = props.dates.start === i && props.dates.end === i
       yearButtons.push(
-        <button key={i} className={buttonClass} onClick={clickHandler}>
+        <button
+          key={i}
+          className={selected ? 'button is-link' : 'button'}
+          onClick={() => selected ? 
+            props.setDates({start: firstYearOfDecade, end: firstYearOfDecade + 9}) :
+            props.setDates({start: i, end: i})}
+        >
           {i}
         </button>)
     }
 
     return (
         <>
-
         <div className='buttons has-addons'>
-        <button className={props.genre === 'fiction'? 'button is-success' : 'button'} onClick={() => props.setGenre('fiction')}>Fiction</button>
-        <button className={props.genre === 'nonfiction'? 'button is-success' : 'button'} onClick={() => props.setGenre('nonfiction')}>Nonfiction</button>
+          <button
+            className={props.genre === 'fiction' ? 'button is-success' : 'button'}
+            onClick={() => props.setGenre('fiction')}
+          >
+            Fiction
+          </button>
+          <button
+            className={props.genre === 'nonfiction' ? 'button is-success' : 'button'}
+            onClick={() => props.setGenre('nonfiction')}
+          >
+            Nonfiction
+          </button>
         </div>
 
         <div className='buttons has-addons'>
-        {earlierButton()}
-        {centuryButtons}
+          <button
+            className={props.dates.end < cutoff ? 'button is-link' : 'button'}
+            onClick={() => props.dates.end < cutoff ?
+              props.setDates(props.defaultDates) :
+              props.setDates({start: -700, end: cutoff - 1})}>
+            Earlier
+          </button>
+          {centuryButtons}
         </div>
 
-        { props.dates.start > 1499 ?
-        <div className='buttons has-addons'>
-        {decadeButtons}
-        </div>
-        : null  
+        { props.dates.start > cutoff ?
+          <div className='buttons has-addons'>
+          {decadeButtons}
+          </div>
+          : null  
         }
         
         { props.dates.end - props.dates.start <= 10 ?
-        <div className='buttons has-addons'>
-        {yearButtons}
-        </div>
-        : null
+          <div className='buttons has-addons'>
+          {yearButtons}
+          </div>
+          : null
         }
 
         {props.author === '' ?

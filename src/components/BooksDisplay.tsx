@@ -30,7 +30,7 @@ function BooksDisplay(props: any) {
         props.setDates({ start: year, end: year })
     }
 
-    const booksDisplay = books.map((book, idx) => {
+    const booksDisplay = books.map((book, idx): JSX.Element => {
         return (
           <tr key={idx}>
             <td>{book.rank}</td>
