@@ -10,8 +10,18 @@ export const defaultDates: dates = {
     end: new Date().getFullYear()
 }
 
-export type state = {
-    genre: string,
+export type book = {
+    rank: number,
+    title: string,
     author: string,
-    dates: dates
-  }
+    year: number
+}
+
+export type state = {
+    data: {
+        genre: string,
+        author: string,
+        dates: dates,
+        books: book[]
+    }
+}

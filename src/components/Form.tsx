@@ -13,12 +13,16 @@ type props = {
   setAuthor: (author: string) => void,
 }
 
-function Form({ genre, dates, author, setGenre, setDates, setAuthor }: props): JSX.Element {
+function Form(props: props): JSX.Element {
+  console.log(props.dates)
+
+  if (!props.dates) return <div>Loading</div>
+  
   const earlierButton: JSX.Element = (
     <button
-      className={dates.end < cutoff ? 'button is-link' : 'button'}
+      className={props.dates.end < cutoff ? 'button is-link' : 'button'}
       onClick={() => {
-        const newDates = dates.end < cutoff ? defaultDates : {start: -700, end: cutoff - 1}
+        const newDates = props.dates.end < cutoff ? defaultDates : {start: -700, end: cutoff - 1}
         setDates(newDates)
         }}>
       Earlier
@@ -28,7 +32,7 @@ function Form({ genre, dates, author, setGenre, setDates, setAuthor }: props): J
   const selectDateRange = (range: number): JSX.Element => (
       <div className='buttons has-addons'>
         { range === 100 ? earlierButton : null }
-        <DateButtons dates={dates} setDates={setDates} range={range} />
+        <DateButtons range={range} />
       </div>
   )
 
@@ -38,7 +42,7 @@ function Form({ genre, dates, author, setGenre, setDates, setAuthor }: props): J
       <div className='buttons has-addons'>
         {['fiction', 'nonfiction'].map((thisGenre: string): JSX.Element => (
           <button
-              className={genre === thisGenre ? 'button is-success' : 'button'}
+              className={props.genre === thisGenre ? 'button is-success' : 'button'}
               onClick={() => setGenre(thisGenre)}
             >
             {thisGenre[0].toUpperCase() + thisGenre.slice(1)}
@@ -49,15 +53,15 @@ function Form({ genre, dates, author, setGenre, setDates, setAuthor }: props): J
 
       {/* SELECT CENTURY / DECADE / YEAR */}
       {selectDateRange(100)}
-      { dates.start >= cutoff ? selectDateRange(10) : null }
-      { dates.end - dates.start <= 10 ? selectDateRange(1) : null }
+      { props.dates.start >= cutoff ? selectDateRange(10) : null }
+      { props.dates.end - props.dates.start <= 10 ? selectDateRange(1) : null }
 
       {/* SHOW SELECTED AUTHOR */}
-      {author === '' ?
+      {props.author === '' ?
         null :
         <div className='buttons has-addons'>
           <button className='button is-info' onClick={() => setAuthor('')}>
-            {author}
+            {props.author}
             <button className='delete is-small ml-1'></button>
           </button>
         </div>
@@ -66,11 +70,11 @@ function Form({ genre, dates, author, setGenre, setDates, setAuthor }: props): J
   )
 }
 
-function mapStateToProps(state: state): state {
+function mapStateToProps(state: state): {genre: string, author: string, dates: dates} {
   return {
-    genre: state.genre,
-    author: state.author,
-    dates: state.dates
+    genre: state.data.genre,
+    author: state.data.author,
+    dates: state.data.dates
   }
 }
 
