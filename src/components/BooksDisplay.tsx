@@ -21,24 +21,21 @@ function BooksDisplay(props: any) {
     
     useEffect(filterBooks, [props])
 
-    function seeAllByAuthor(author: string): void {
-        props.setAuthor(author)
-        props.setDates(props.defaultDates)
-    }
-
-    function seeAllByYear(year: number): void {
-        props.setDates({ start: year, end: year })
-    }
-
     const booksDisplay = books.map((book, idx): JSX.Element => {
         return (
           <tr key={idx}>
             <td>{book.rank}</td>
-            <td onClick={() => seeAllByAuthor(book.author)}><a>{book.author}</a></td>
+            <td onClick={() => {
+                props.setAuthor(book.author)
+                props.setDates(props.defaultDates)
+            }}>
+                <a>{book.author}</a>
+            </td>
             <td><em>{book.title}</em></td>
             <td onClick={() => {
                 if (typeof book.year === "number") {
-                    seeAllByYear(book.year)
+                    props.setAuthor('')
+                    props.setDates({ start: book.year, end: book.year })
                 }
                 }}>
                 <a>{book.year}</a>

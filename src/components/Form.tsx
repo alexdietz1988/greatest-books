@@ -1,50 +1,47 @@
 import DateButtons from './DateButtons'
 
 function Form(props: any) {
-  const cutoff = 1500
+  const cutoff: number = 1500
+  
+  const earlierButton: JSX.Element = (
+    <button
+      className={props.dates.end < cutoff ? 'button is-link' : 'button'}
+      onClick={() => {
+        const newDates = props.dates.end < cutoff ? props.defaultDates : {start: -700, end: cutoff - 1}
+        props.setDates(newDates)
+        }}>
+      Earlier
+    </button>
+  )
+
+  const selectDateRange = (range: number): JSX.Element => (
+      <div className='buttons has-addons'>
+        { range === 100 ? earlierButton : null }
+        <DateButtons cutoff={cutoff} defaultDates={props.defaultDates} dates={props.dates} setDates={props.setDates} range={range} />
+      </div>
+  )
 
   return (
       <>
+      {/* SELECT GENRE */}
       <div className='buttons has-addons'>
-        <button
-          className={props.genre === 'fiction' ? 'button is-success' : 'button'}
-          onClick={() => props.setGenre('fiction')}
-        >
-          Fiction
-        </button>
-        <button
-          className={props.genre === 'nonfiction' ? 'button is-success' : 'button'}
-          onClick={() => props.setGenre('nonfiction')}
-        >
-          Nonfiction
-        </button>
+        {['fiction', 'nonfiction'].map(genre => (
+          <button
+              className={props.genre === genre ? 'button is-success' : 'button'}
+              onClick={() => props.setGenre(genre)}
+            >
+            {genre[0].toUpperCase() + genre.slice(1)}
+          </button>
+        )
+        )}
       </div>
 
-      <div className='buttons has-addons'>
-        <button
-          className={props.dates.end < cutoff ? 'button is-link' : 'button'}
-          onClick={() => props.dates.end < cutoff ?
-            props.setDates(props.defaultDates) :
-            props.setDates({start: -700, end: cutoff - 1})}>
-          Earlier
-        </button>
-        <DateButtons cutoff={cutoff} defaultDates={props.defaultDates} dates={props.dates} setDates={props.setDates} range={100} />
-      </div>
+      {/* SELECT CENTURY / DECADE / YEAR */}
+      {selectDateRange(100)}
+      { props.dates.start >= cutoff ? selectDateRange(10) : null }
+      { props.dates.end - props.dates.start <= 10 ? selectDateRange(1) : null }
 
-      { props.dates.start >= cutoff ?
-        <div className='buttons has-addons'>
-        <DateButtons cutoff={cutoff} defaultDates={props.defaultDates} dates={props.dates} setDates={props.setDates} range={10} />
-        </div>
-        : null  
-      }
-      
-      { props.dates.end - props.dates.start <= 10 ?
-        <div className='buttons has-addons'>
-        <DateButtons cutoff={cutoff} defaultDates={props.defaultDates} dates={props.dates} setDates={props.setDates} range={1} />
-        </div>
-        : null
-      }
-
+      {/* SHOW SELECTED AUTHOR */}
       {props.author === '' ?
         null :
         <div className='buttons has-addons'>
