@@ -11,8 +11,9 @@ function BooksDisplay(props: any) {
         const filtered = []
         for (let i = 0; i < allBooks.length && filtered.length < 100; i++) {
             let book = allBooks[i]
-            if ((book.year > props.dates.start - 1 && book.year < props.dates.end + 1) &&
-            (props.author === '' || book.author === props.author)) {
+            const inDateRange: boolean = book.year >= props.dates.start - 1 && book.year <= props.dates.end
+            const datesAreDefault: boolean = (props.dates.start === props.defaultDates.start && props.dates.end === props.defaultDates.end)
+            if ((inDateRange || datesAreDefault) && (props.author === '' || book.author === props.author)) {
             filtered.push(book)
             }
         }
@@ -41,12 +42,15 @@ function BooksDisplay(props: any) {
                         <a>{book.author}</a>
                     </td>
                     <td><em>{book.title}</em></td>
-                    <td onClick={() => {
-                        props.setAuthor('')
-                        props.setDates({ start: book.year, end: book.year })
-                        }}>
-                        <a>{book.year}</a>
-                    </td>
+                    { book.year === 10000 ? 
+                        <td>No Date</td> :
+                        <td onClick={() => {
+                            props.setAuthor('')
+                            props.setDates({ start: book.year, end: book.year })
+                            }}>
+                            <a>{book.year}</a>
+                        </td>
+                    }
                 </tr>
             )) }
         </table>
