@@ -1,16 +1,19 @@
+import { connect } from 'react-redux'
+
 import DateButtons from './DateButtons'
-import { dates, cutoff, defaultDates } from '../types'
+import { dates, cutoff, defaultDates, state } from '../types'
+import { setGenre, setDates, setAuthor } from '../actions'
 
 type props = { 
   genre: string,
-  setGenre: (genre: string) => void,
   dates: dates,
-  setDates: (dates: dates) => void,
   author: string,
+  setGenre: (genre: string) => void,
+  setDates: (dates: dates) => void,
   setAuthor: (author: string) => void,
 }
 
-function Form({ genre, setGenre, dates, setDates, author, setAuthor }: props): JSX.Element {
+function Form({ genre, dates, author, setGenre, setDates, setAuthor }: props): JSX.Element {
   const earlierButton: JSX.Element = (
     <button
       className={dates.end < cutoff ? 'button is-link' : 'button'}
@@ -63,4 +66,12 @@ function Form({ genre, setGenre, dates, setDates, author, setAuthor }: props): J
   )
 }
 
-export default Form
+function mapStateToProps(state: state): state {
+  return {
+    genre: state.genre,
+    author: state.author,
+    dates: state.dates
+  }
+}
+
+export default connect(mapStateToProps, { setGenre, setDates, setAuthor })(Form)

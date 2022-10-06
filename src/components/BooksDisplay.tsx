@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
 import fiction from '../data/fiction'
 import nonfiction from '../data/nonfiction'
-import { dates, defaultDates } from '../types'
+import { dates, defaultDates, state } from '../types'
+import { setAuthor, setDates } from '../actions'
 
 type props = {
     genre: string,
@@ -85,4 +87,12 @@ function BooksDisplay({ genre, dates, author, setAuthor, setDates }: props) {
         </table>
 }
 
-export default BooksDisplay
+function mapStateToProps(state: state): state {
+    return {
+        author: state.author,
+        genre: state.genre,
+        dates: state.dates
+    }
+}
+
+export default connect(mapStateToProps, { setAuthor, setDates })(BooksDisplay)

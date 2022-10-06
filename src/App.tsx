@@ -1,14 +1,7 @@
-import { useState } from 'react'
-
 import Form from './components/Form'
 import BooksDisplay from './components/BooksDisplay'
-import { defaultDates } from './types'
 
 function App(): JSX.Element {
-  const [genre, setGenre] = useState('fiction')
-  const [dates, setDates] = useState(defaultDates)
-  const [author, setAuthor] = useState('')
-
   return (
     <>
     <div className='section pb-0'>
@@ -17,8 +10,8 @@ function App(): JSX.Element {
     </div>
 
     <main className='section'>
-      <Form genre={genre} setGenre={setGenre} dates={dates} setDates={setDates} author={author} setAuthor={setAuthor} />
-      <BooksDisplay genre={genre} dates={dates} setDates={setDates} author={author} setAuthor={setAuthor} />
+      <Form />
+      <BooksDisplay />
     
     <p className='is-size-6 has-text-grey'>Book icons created by <a className='has-text-info' href="https://www.flaticon.com/free-icons/book" title="book icons">Freepik - Flaticon</a></p>
     </main>

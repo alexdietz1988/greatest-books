@@ -9,3 +9,9 @@ export const defaultDates: dates = {
     start: -700,
     end: new Date().getFullYear()
 }
+
+export type state = {
+    genre: string,
+    author: string,
+    dates: dates
+  }
