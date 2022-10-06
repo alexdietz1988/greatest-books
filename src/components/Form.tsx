@@ -38,7 +38,7 @@ function Form({ genre, setGenre, dates, setDates, author, setAuthor }: props): J
               className={genre === thisGenre ? 'button is-success' : 'button'}
               onClick={() => setGenre(thisGenre)}
             >
-            {genre[0].toUpperCase() + genre.slice(1)}
+            {thisGenre[0].toUpperCase() + thisGenre.slice(1)}
           </button>
         )
         )}

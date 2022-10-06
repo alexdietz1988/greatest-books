@@ -1,28 +1,44 @@
 import { useEffect, useState } from 'react'
 import fiction from '../data/fiction'
 import nonfiction from '../data/nonfiction'
+import { dates, defaultDates } from '../types'
 
-function BooksDisplay(props: any) {
+type props = {
+    genre: string,
+    dates: dates,
+    author: string,
+    setAuthor: (author: string) => void,
+    setDates: (dates: dates) => void,
+}
+
+type book = {
+    rank: number,
+    title: string,
+    author: string,
+    year: number
+}
+
+function BooksDisplay({ genre, dates, author, setAuthor, setDates }: props) {
     const [books, setBooks] = useState(fiction)
-    useEffect(filterBooks, [props])
+    useEffect(filterBooks, [genre, dates, author])
 
     // Filter books array depending on selected genre, date, and author
     function filterBooks(): void {
-        const allBooks = props.genre === 'fiction' ? fiction : nonfiction
-        const filtered = []
+        const allBooks: book[] = genre === 'fiction' ? fiction : nonfiction
+        const filtered: book[] = []
         for (let i = 0; i < allBooks.length && filtered.length < 100; i++) {
-            let book = allBooks[i]
+            const book: book = allBooks[i]
             const inDateRange: boolean = (
-                book.year >= props.dates.start &&
-                book.year <= props.dates.end
+                book.year >= dates.start &&
+                book.year <= dates.end
             )
             const datesAreDefault: boolean = (
-                props.dates.start === props.defaultDates.start &&
-                props.dates.end === props.defaultDates.end
+                dates.start === defaultDates.start &&
+                dates.end === defaultDates.end
             )
             if (
                 (inDateRange || datesAreDefault) &&
-                (props.author === '' || book.author === props.author)
+                (author === '' || book.author === author)
             ) {
                 filtered.push(book)
             }
@@ -49,8 +65,8 @@ function BooksDisplay(props: any) {
                 <tr key={idx}>
                     <td>{book.rank}</td>
                     <td onClick={() => {
-                        props.setAuthor(book.author)
-                        props.setDates(props.defaultDates)
+                        setAuthor(book.author)
+                        setDates(defaultDates)
                     }}>
                         <a>{book.author}</a>
                     </td>
@@ -58,8 +74,8 @@ function BooksDisplay(props: any) {
                     { book.year === 10000 ? 
                         <td>No Date</td> :
                         <td onClick={() => {
-                            props.setAuthor('')
-                            props.setDates({ start: book.year, end: book.year })
+                            setAuthor('')
+                            setDates({ start: book.year, end: book.year })
                             }}>
                             <a>{book.year}</a>
                         </td>
