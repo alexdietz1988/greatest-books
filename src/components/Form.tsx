@@ -1,14 +1,22 @@
 import DateButtons from './DateButtons'
+import { dates, cutoff, defaultDates } from '../types'
 
-function Form(props: any) {
-  const cutoff: number = 1500
-  
+type props = { 
+  genre: string,
+  setGenre: (genre: string) => void,
+  dates: dates,
+  setDates: (dates: dates) => void,
+  author: string,
+  setAuthor: (author: string) => void,
+}
+
+function Form({ genre, setGenre, dates, setDates, author, setAuthor }: props) {
   const earlierButton: JSX.Element = (
     <button
-      className={props.dates.end < cutoff ? 'button is-link' : 'button'}
+      className={dates.end < cutoff ? 'button is-link' : 'button'}
       onClick={() => {
-        const newDates = props.dates.end < cutoff ? props.defaultDates : {start: -700, end: cutoff - 1}
-        props.setDates(newDates)
+        const newDates = dates.end < cutoff ? defaultDates : {start: -700, end: cutoff - 1}
+        setDates(newDates)
         }}>
       Earlier
     </button>
@@ -17,7 +25,7 @@ function Form(props: any) {
   const selectDateRange = (range: number): JSX.Element => (
       <div className='buttons has-addons'>
         { range === 100 ? earlierButton : null }
-        <DateButtons cutoff={cutoff} defaultDates={props.defaultDates} dates={props.dates} setDates={props.setDates} range={range} />
+        <DateButtons dates={dates} setDates={setDates} range={range} />
       </div>
   )
 
@@ -25,10 +33,10 @@ function Form(props: any) {
       <>
       {/* SELECT GENRE */}
       <div className='buttons has-addons'>
-        {['fiction', 'nonfiction'].map(genre => (
+        {['fiction', 'nonfiction'].map((thisGenre: string): JSX.Element => (
           <button
-              className={props.genre === genre ? 'button is-success' : 'button'}
-              onClick={() => props.setGenre(genre)}
+              className={genre === thisGenre ? 'button is-success' : 'button'}
+              onClick={() => setGenre(thisGenre)}
             >
             {genre[0].toUpperCase() + genre.slice(1)}
           </button>
@@ -38,15 +46,15 @@ function Form(props: any) {
 
       {/* SELECT CENTURY / DECADE / YEAR */}
       {selectDateRange(100)}
-      { props.dates.start >= cutoff ? selectDateRange(10) : null }
-      { props.dates.end - props.dates.start <= 10 ? selectDateRange(1) : null }
+      { dates.start >= cutoff ? selectDateRange(10) : null }
+      { dates.end - dates.start <= 10 ? selectDateRange(1) : null }
 
       {/* SHOW SELECTED AUTHOR */}
-      {props.author === '' ?
+      {author === '' ?
         null :
         <div className='buttons has-addons'>
-          <button className='button is-info' onClick={() => props.setAuthor('')}>
-            {props.author}
+          <button className='button is-info' onClick={() => setAuthor('')}>
+            {author}
             <button className='delete is-small ml-1'></button>
           </button>
         </div>

@@ -1,3 +1,5 @@
+import { cutoff, defaultDates } from '../types'
+
 function DateButtons(props: any) {
     const buttons = []
 
@@ -10,8 +12,8 @@ function DateButtons(props: any) {
     let deselectDates = {start: contextStart, end: contextEnd} 
 
     if (props.range === 100) {
-        contextStart = props.cutoff
-        deselectDates = props.defaultDates
+        contextStart = cutoff
+        deselectDates = defaultDates
         contextEnd = new Date().getFullYear()
     }
 
