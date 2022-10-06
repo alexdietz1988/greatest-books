@@ -10,7 +10,7 @@ type props = {
   setAuthor: (author: string) => void,
 }
 
-function Form({ genre, setGenre, dates, setDates, author, setAuthor }: props) {
+function Form({ genre, setGenre, dates, setDates, author, setAuthor }: props): JSX.Element {
   const earlierButton: JSX.Element = (
     <button
       className={dates.end < cutoff ? 'button is-link' : 'button'}

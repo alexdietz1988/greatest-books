@@ -4,7 +4,7 @@ import Form from './components/Form'
 import BooksDisplay from './components/BooksDisplay'
 import { defaultDates } from './types'
 
-function App() {
+function App(): JSX.Element {
   const [genre, setGenre] = useState('fiction')
   const [dates, setDates] = useState(defaultDates)
   const [author, setAuthor] = useState('')
