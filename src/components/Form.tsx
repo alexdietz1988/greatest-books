@@ -40,7 +40,13 @@ function Form({genre, dates, author, setGenre, setDates, setAuthor}: props): JSX
           <button
               key={thisGenre}
               className={genre === thisGenre ? 'button is-success' : 'button'}
-              onClick={() => setGenre(thisGenre)}
+              onClick={() => {
+                if (genre !== thisGenre) {
+                  setGenre(thisGenre)
+                  setDates(defaultDates)
+                  setAuthor('')
+                }
+              }}
             >
             {thisGenre[0].toUpperCase() + thisGenre.slice(1)}
           </button>
