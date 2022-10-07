@@ -45,13 +45,14 @@ function dataReducer(state = defaultState, action: {type: string, payload: strin
             newState.dates.start === defaultDates.start &&
             newState.dates.end === defaultDates.end
         )
-        if (
-            (inDateRange || datesAreDefault) &&
-            (newState.author === '' || book.author === newState.author)
-        ) {
+        const dateMatch: boolean = inDateRange || datesAreDefault
+        const authorMatch: boolean = newState.author === '' || book.author === newState.author
+        const match: boolean = dateMatch && authorMatch
+        if (match) {
             newBooks.push(book)
         }
     }
+    newState.books = newBooks
 
     return newState
 }
