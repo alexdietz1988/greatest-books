@@ -5,4 +5,4 @@ The website is built using React, Redux, and TypeScript, and styled using Bulma.
 
 # Screenshots
 ![image](./screenshots/screenshot1.png)
-![image](./screenshots/screenshot2.png)
+![image](./screenshots/screenshot3.png)
