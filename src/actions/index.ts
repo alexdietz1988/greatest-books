@@ -1,4 +1,4 @@
-import { SET_AUTHOR, SET_DATES, SET_GENRE } from './types'
+import { SET_AUTHOR, SET_DATES, SET_GENRE, SEARCH } from './types'
 import { dates } from '../types'
 
 export function setAuthor(author: string): {type: string, payload: string} {
@@ -11,4 +11,8 @@ export function setDates(dates: dates): {type: string, payload: dates} {
 
 export function setGenre(genre: string): {type: string, payload: string} {
     return {type: SET_GENRE, payload: genre}
+}
+
+export function search(query: string): {type: string, payload: string} {
+    return {type: SEARCH, payload: query}
 }

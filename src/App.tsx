@@ -3,21 +3,26 @@ import { connect } from 'react-redux'
 import Header from './components/Header'
 import GenreButtons from './components/GenreButtons'
 import DateButtons from './components/DateButtons'
-import AuthorButton from './components/AuthorButton'
+import QueryTag from './components/QueryTag'
 import BooksDisplay from './components/BooksDisplay'
 import { state } from './types'
+import Search from './components/Search'
 
-function App({author}: {author: string}): JSX.Element {
+function App({author, query}: {author: string, query: string}): JSX.Element {
   return (
     <>
     <Header />
 
     <main className='section'>
       <GenreButtons />
+      
 
-        {author === '' ?
-          <DateButtons /> : 
-          <AuthorButton />
+        {author === '' && query === '' ?
+          <>
+          <Search />
+          <DateButtons />
+          </> : 
+          <QueryTag />
         }
       
       <BooksDisplay />
@@ -27,8 +32,11 @@ function App({author}: {author: string}): JSX.Element {
   )
 }
 
-function mapStateToProps(state: state): {author: string} {
-  return { author: state.data.author }
+function mapStateToProps(state: state): {author: string, query: string} {
+  return { 
+    author: state.data.author,
+    query: state.data.query
+   }
 }
 
 export default connect(mapStateToProps)(App)

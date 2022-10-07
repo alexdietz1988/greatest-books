@@ -22,6 +22,7 @@ export type state = {
         genre: string,
         author: string,
         dates: dates,
+        query: string
         books: book[]
     }
 }

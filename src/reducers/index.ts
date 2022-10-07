@@ -1,20 +1,22 @@
 import { combineReducers } from 'redux'
-import { SET_GENRE, SET_AUTHOR, SET_DATES } from '../actions/types'
+import { SET_AUTHOR, SET_GENRE, SET_DATES, SEARCH } from '../actions/types'
 import { dates, defaultDates, book } from '../types'
 import fiction from '../data/fiction'
 import nonfiction from '../data/nonfiction'
 
 const defaultState = {
     genre: 'fiction',
-    author: '',
     dates: defaultDates,
+    author: '',
+    query: '',
     books: fiction
 }
 
 type data = {
     genre: string,
-    author: string,
     dates: dates,
+    author: string,
+    query: string,
     books: book[]
 }
 
@@ -22,10 +24,15 @@ function dataReducer(state = defaultState, action: {type: string, payload: strin
     const newState: data = { ...state }
 
     if (typeof action.payload === 'string') {
-        if (action.type === SET_GENRE) {
-            newState.genre = action.payload
-        } else if (action.type === SET_AUTHOR) {
-            newState.author = action.payload
+        switch (action.type) {
+            case SET_GENRE:
+                newState.genre = action.payload
+                break
+            case SET_AUTHOR:
+                newState.author = action.payload
+                break
+            case SEARCH:
+                newState.query = action.payload
         }
 
     } else if (action.type === SET_DATES) {
@@ -47,7 +54,12 @@ function dataReducer(state = defaultState, action: {type: string, payload: strin
         )
         const dateMatch: boolean = inDateRange || datesAreDefault
         const authorMatch: boolean = newState.author === '' || book.author === newState.author
-        const match: boolean = dateMatch && authorMatch
+
+        const emptyQuery: boolean = newState.query === ''
+        const authorQueryMatch: boolean = book.author.toLowerCase().includes(newState.query.toLowerCase())
+        const titleQueryMatch: boolean = book.title.toLowerCase().includes(newState.query.toLowerCase())
+        const queryMatch = emptyQuery || (authorQueryMatch || titleQueryMatch)
+        const match: boolean = (dateMatch && authorMatch) && queryMatch
         if (match) {
             newBooks.push(book)
         }
