@@ -57,7 +57,7 @@ function Form(props: props): JSX.Element {
       {props.author === '' ?
         null :
         <div className='buttons has-addons'>
-          <button className='button is-info' onClick={() => setAuthor('')}>
+          <button className='button is-info' onClick={() => props.setAuthor('')}>
             {props.author}
             <button className='delete is-small ml-1'></button>
           </button>
