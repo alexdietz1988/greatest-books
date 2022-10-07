@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-
+import { BrowserRouter as Router } from 'react-router-dom'
 import './../node_modules/bulma/css/bulma.css'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
@@ -18,7 +18,9 @@ const store = createStore(reducers, composeWithDevTools())
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>
 )

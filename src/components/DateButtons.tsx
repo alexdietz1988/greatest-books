@@ -10,8 +10,9 @@ type props = {
 function DateButtons({dates, setDates}: props): JSX.Element {
     const earlierButton: JSX.Element = (
         <button
-          className={dates.end < cutoff ? 'button is-link' : 'button'}
-          onClick={() => {
+            key='earlier'
+            className={dates.end < cutoff ? 'button is-link' : 'button'}
+            onClick={() => {
             const newDates = dates.end < cutoff ? defaultDates : {start: -700, end: cutoff - 1}
             setDates(newDates)
             }}>
