@@ -13,12 +13,12 @@ type props = {
   setAuthor: (author: string) => void,
 }
 
-function Form(props: props): JSX.Element {
+function Form({genre, dates, author, setGenre, setDates, setAuthor}: props): JSX.Element {
   const earlierButton: JSX.Element = (
     <button
-      className={props.dates.end < cutoff ? 'button is-link' : 'button'}
+      className={dates.end < cutoff ? 'button is-link' : 'button'}
       onClick={() => {
-        const newDates = props.dates.end < cutoff ? defaultDates : {start: -700, end: cutoff - 1}
+        const newDates = dates.end < cutoff ? defaultDates : {start: -700, end: cutoff - 1}
         setDates(newDates)
         }}>
       Earlier
@@ -39,7 +39,7 @@ function Form(props: props): JSX.Element {
         {['fiction', 'nonfiction'].map((thisGenre: string): JSX.Element => (
           <button
               key={thisGenre}
-              className={props.genre === thisGenre ? 'button is-success' : 'button'}
+              className={genre === thisGenre ? 'button is-success' : 'button'}
               onClick={() => setGenre(thisGenre)}
             >
             {thisGenre[0].toUpperCase() + thisGenre.slice(1)}
@@ -50,15 +50,15 @@ function Form(props: props): JSX.Element {
 
       {/* SELECT CENTURY / DECADE / YEAR */}
       {selectDateRange(100)}
-      { props.dates.start >= cutoff ? selectDateRange(10) : null }
-      { props.dates.end - props.dates.start <= 10 ? selectDateRange(1) : null }
+      { dates.start >= cutoff ? selectDateRange(10) : null }
+      { dates.end - dates.start <= 10 ? selectDateRange(1) : null }
 
       {/* SHOW SELECTED AUTHOR */}
-      {props.author === '' ?
+      {author === '' ?
         null :
         <div className='buttons has-addons'>
-          <button className='button is-info' onClick={() => props.setAuthor('')}>
-            {props.author}
+          <button className='button is-info' onClick={() => setAuthor('')}>
+            {author}
             <button className='delete is-small ml-1'></button>
           </button>
         </div>
