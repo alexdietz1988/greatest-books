@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { dates, defaultDates, state, book } from '../types'
 import { setAuthor, setDates } from '../actions'
 
@@ -33,7 +32,7 @@ function BooksDisplay({books, setAuthor, setDates}: props) {
                         setAuthor(book.author)
                         setDates(defaultDates)
                     }}>
-                        <Link to={`/${book.author}`}>{book.author}</Link>
+                        <a>{book.author}</a>
                     </td>
                     <td><em>{book.title}</em></td>
                     { book.year === 10000 ? 
