@@ -26,7 +26,7 @@ function DateButtons({dates, setDates}: props): JSX.Element {
         // If the selected decade is 1920, for example, then the decade buttons should range from 1900 to 1999
         const contextSize = range * 10 
         let contextStart = Math.floor(dates.start / contextSize) * contextSize
-        let contextEnd = Math.min(contextStart + contextSize - 1, new Date().getFullYear())
+        let contextEnd = Math.min(contextStart + contextSize, new Date().getFullYear())
 
         // If the user deselects the 1920s button, for example, then the date range should return to 1900-1999
         let deselectDates = {start: contextStart, end: contextEnd} 
