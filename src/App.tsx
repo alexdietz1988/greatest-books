@@ -33,9 +33,10 @@ function App({author, query}: {author: string, query: string}): JSX.Element {
 }
 
 function mapStateToProps(state: state): {author: string, query: string} {
+  console.log(state.filters)
   return { 
-    author: state.data.author,
-    query: state.data.query
+    author: state.filters.author,
+    query: state.filters.query
    }
 }
 

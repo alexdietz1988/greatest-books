@@ -18,22 +18,23 @@ export type book = {
     rank: number,
     title: string,
     author: string,
-    year: number
+    publication_date: number
 }
 
 export type state = {
-    data: {
+    filters: {
         genre: string,
         author: string,
         dates: dates,
         query: string
-        books: book[]
-    }
+        
+    },
+    books: book[]
 }
 
-export type query = {
+export type filters = {
     genre: string,
     dates: dates,
     author: string,
-    queryString: string
+    query: string
 }

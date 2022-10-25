@@ -1,13 +1,14 @@
 import { connect } from 'react-redux'
 import { cutoff, defaultDates, dates, state } from '../types'
-import { setDates } from '../actions'
+import { setDates, fetchBooks } from '../actions'
 
 type props = {
     dates: dates,
-    setDates: (dates: dates) => void
+    setDates: (dates: dates) => void,
+    fetchBooks: () => void
 }
 
-function DateButtons({dates, setDates}: props): JSX.Element {
+function DateButtons({ dates, setDates, fetchBooks }: props): JSX.Element {
     const earlierButton: JSX.Element = (
         <button
             key='earlier'
@@ -15,6 +16,7 @@ function DateButtons({dates, setDates}: props): JSX.Element {
             onClick={() => {
             const newDates = dates.end < cutoff ? defaultDates : {start: -700, end: cutoff - 1}
             setDates(newDates)
+            fetchBooks()
             }}>
           Earlier
         </button>
@@ -45,7 +47,10 @@ function DateButtons({dates, setDates}: props): JSX.Element {
                 <button
                     key={i}
                     className={selected ? 'button is-link' : 'button'}
-                    onClick={() => setDates(newDates)}
+                    onClick={() => {
+                        setDates(newDates)
+                        fetchBooks()
+                    }}
                 >
                 {range === 1 ? i : i + 's'}
                 </button>)
@@ -68,7 +73,7 @@ function DateButtons({dates, setDates}: props): JSX.Element {
 }
 
 function mapStateToProps(state: state): {dates: dates} {
-    return { dates: state.data.dates }
+    return { dates: state.filters.dates }
 }
 
-export default connect(mapStateToProps, { setDates })(DateButtons)
+export default connect(mapStateToProps, { setDates, fetchBooks })(DateButtons)

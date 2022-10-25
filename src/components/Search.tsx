@@ -1,17 +1,19 @@
 import { Form, Field } from 'react-final-form'
 import { connect } from 'react-redux'
-import { search, setDates } from '../actions'
+import { setQuery, setDates, fetchBooks } from '../actions'
 import { dates, defaultDates } from '../types'
 
 type props = {
-    search: (query: string) => void,
-    setDates: (dates: dates) => void
+    setQuery: (query: string) => void,
+    setDates: (dates: dates) => void,
+    fetchBooks: () => void
 }
 
-function Search({ search, setDates }: props): JSX.Element {
+function Search({ setQuery, setDates, fetchBooks }: props): JSX.Element {
     function onSubmit(formValues: {query: string}): void {
         setDates(defaultDates)
-        search(formValues.query)
+        setQuery(formValues.query)
+        fetchBooks()
     }
     return (
         <Form 
@@ -29,4 +31,4 @@ function Search({ search, setDates }: props): JSX.Element {
     )
 }
 
-export default connect(null, { search, setDates })(Search)
+export default connect(null, { setQuery, setDates, fetchBooks })(Search)

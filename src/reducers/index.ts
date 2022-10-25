@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import queryReducer from './queryReducer'
+import filterReducer from './filterReducer'
 import bookReducer from './bookReducer'
 
 export default combineReducers({ 
-    query: queryReducer,
+    filters: filterReducer,
     books: bookReducer
 })

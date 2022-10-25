@@ -2,8 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './../node_modules/bulma/css/bulma.css'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { applyMiddleware, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import thunk from 'redux-thunk'
 
 import App from './App'
 import reducers from './reducers'
@@ -12,7 +13,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
 
-const store = createStore(reducers, composeWithDevTools())
+const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
 
 root.render(
   <React.StrictMode>

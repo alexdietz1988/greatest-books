@@ -1,14 +1,18 @@
 import { connect } from 'react-redux'
 import { dates, defaultDates, state, book } from '../types'
-import { setAuthor, setDates } from '../actions'
+import { setAuthor, setDates, fetchBooks } from '../actions'
+import { useEffect } from 'react'
 
 type props = {
     books: book[],
     setAuthor: (author: string) => void,
     setDates: (dates: dates) => void,
+    fetchBooks: () => void
 }
 
-function BooksDisplay({books, setAuthor, setDates}: props) {
+function BooksDisplay({books, setAuthor, setDates, fetchBooks, }: props) {
+    useEffect(() => {fetchBooks()}, [])
+
     return books.length === 0 ?
         <p>No results</p> :
         <table className='table' style={{maxWidth: "600px"}}>
@@ -31,17 +35,19 @@ function BooksDisplay({books, setAuthor, setDates}: props) {
                     <td onClick={() => {
                         setAuthor(book.author)
                         setDates(defaultDates)
+                        fetchBooks()
                     }}>
                         <a>{book.author}</a>
                     </td>
                     <td><em>{book.title}</em></td>
-                    { book.year === 10000 ? 
+                    { book.publication_date === 10000 ? 
                         <td>No Date</td> :
                         <td onClick={() => {
                             setAuthor('')
-                            setDates({ start: book.year, end: book.year })
+                            setDates({ start: book.publication_date, end: book.publication_date })
+                            fetchBooks()
                             }}>
-                            <a>{book.year}</a>
+                            <a>{book.publication_date}</a>
                         </td>
                     }
                 </tr>
@@ -50,10 +56,10 @@ function BooksDisplay({books, setAuthor, setDates}: props) {
         </table>
 }
 
-function mapStateToProps(state: state): {books: book[]} {
+function mapStateToProps(state: state): { books: book[] } {
     return {
-        books: state.data.books
+        books: state.books
     }
 }
 
-export default connect(mapStateToProps, { setAuthor, setDates })(BooksDisplay)
+export default connect(mapStateToProps, { setAuthor, setDates, fetchBooks })(BooksDisplay)

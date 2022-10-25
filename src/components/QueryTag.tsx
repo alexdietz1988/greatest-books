@@ -1,20 +1,22 @@
 import { connect } from 'react-redux'
 import { state } from '../types'
-import { setAuthor, search } from '../actions'
+import { setAuthor, setQuery, fetchBooks } from '../actions'
 
 type props = { 
   author: string,
   query: string
   setAuthor: (author: string) => void,
-  search: (author: string) => void
+  setQuery: (author: string) => void,
+  fetchBooks: () => void
 }
 
-function QueryTag({author, query, setAuthor, search}: props): JSX.Element {
+function QueryTag({ author, query, setAuthor, setQuery, fetchBooks }: props): JSX.Element {
   return (
     <div className='buttons has-addons'>
       <button className='button is-info' onClick={() => {
         setAuthor('')
-        search('')
+        setQuery('')
+        fetchBooks()
         }}>
         {author !== '' ? author : query}
         <button className='delete is-small ml-1'></button>
@@ -25,9 +27,9 @@ function QueryTag({author, query, setAuthor, search}: props): JSX.Element {
 
 function mapStateToProps(state: state): {author: string, query: string} {
   return { 
-    author: state.data.author,
-    query: state.data.query
+    author: state.filters.author,
+    query: state.filters.query
    }
 }
 
-export default connect(mapStateToProps, { setAuthor, search })(QueryTag)
+export default connect(mapStateToProps, { setAuthor, setQuery, fetchBooks })(QueryTag)
